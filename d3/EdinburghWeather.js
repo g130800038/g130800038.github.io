@@ -3,19 +3,19 @@
 
 
 queue()
-	.defer(d3.json, 'flickr/ThirdGraphWeatherCity/JanWeather.json')
-	.defer(d3.json, 'flickr/ThirdGraphWeatherCity/FebWeather.json')
-	.defer(d3.json, 'flickr/ThirdGraphWeatherCity/MarWeather.json')
-	.defer(d3.json, 'flickr/ThirdGraphWeatherCity/AprWeather.json')
-	.defer(d3.json, 'flickr/ThirdGraphWeatherCity/MayWeather.json')
-	.defer(d3.json, 'flickr/ThirdGraphWeatherCity/JunWeather.json')
-	.defer(d3.json, 'flickr/ThirdGraphWeatherCity/JulWeather.json')
-	.defer(d3.json, 'flickr/ThirdGraphWeatherCity/AugWeather.json')
-	.defer(d3.json, 'flickr/ThirdGraphWeatherCity/SepWeather.json')
-	.defer(d3.json, 'flickr/ThirdGraphWeatherCity/OctWeather.json')
-	.defer(d3.json, 'flickr/ThirdGraphWeatherCity/DecWeather.json')
-	.defer(d3.json, 'flickr/ThirdGraphWeatherCity/NovWeather.json')
-	.defer(d3.json, 'flickr/ThirdGraphWeatherCity/RainWeather.json')
+	.defer(d3.json, './flickr/ThirdGraphWeatherCity/JanWeather.json')
+	.defer(d3.json, './flickr/ThirdGraphWeatherCity/FebWeather.json')
+	.defer(d3.json, './flickr/ThirdGraphWeatherCity/MarWeather.json')
+	.defer(d3.json, './flickr/ThirdGraphWeatherCity/AprWeather.json')
+	.defer(d3.json, './flickr/ThirdGraphWeatherCity/MayWeather.json')
+	.defer(d3.json, './flickr/ThirdGraphWeatherCity/JunWeather.json')
+	.defer(d3.json, './flickr/ThirdGraphWeatherCity/JulWeather.json')
+	.defer(d3.json, './flickr/ThirdGraphWeatherCity/AugWeather.json')
+	.defer(d3.json, './flickr/ThirdGraphWeatherCity/SepWeather.json')
+	.defer(d3.json, './flickr/ThirdGraphWeatherCity/OctWeather.json')
+	.defer(d3.json, './flickr/ThirdGraphWeatherCity/DecWeather.json')
+	.defer(d3.json, './flickr/ThirdGraphWeatherCity/NovWeather.json')
+	.defer(d3.json, './flickr/ThirdGraphWeatherCity/RainWeather.json')
 	.await(dataloaded);
 	
 var margin = {t: 50, r: 50, b: 50, l: 50};
