@@ -65,12 +65,12 @@ function drawData(){
 	*/  
 		var parseDate = d3.time.format("%Y-%m-%d %H:%M:%S").parse; 
 		data.forEach(function(d) {
-		        d.photo.dates.taken = parseDate(d.photo.dates.taken);
+		        d.d.photo.dates.taken = parseDate(d.photo.dates.taken);
 		        
 		   	});    
 		var TimeScale2 = d3.time.scale()
 		        //.domain([new Date("2015-01-01 00:00:00"), new Date("2015-12-31 23:59:59")])
-		        .domain(d3.extent(data, function(d) { return d.photo.dates.taken; }))
+		        .domain(extent(data, function(d) { return d.photo.dates.taken; }))
 				.nice(d3.time.day)
 		        .range([0, 2 * Math.PI]);
 		  
@@ -162,10 +162,10 @@ function drawData(){
 					.attr("width",imagesize)
 					.attr("height",imagesize)
 					.attr("x",function(d,i){
-						return TimeScale2(d.photo.dates.taken)*Math.cos(HueScale(getImageHue(d.photo.color[0],d.photo.color[1],d.photo.color[2]))) ;
+						return TimeScale2(new Date(d.photo.dates.taken))*Math.cos(HueScale(getImageHue(d.photo.color[0],d.photo.color[1],d.photo.color[2]))) ;
 					})
 					.attr("y", function(d,i){
-						return  TimeScale2(d.photo.dates.taken)*Math.sin(HueScale(getImageHue(d.photo.color[0],d.photo.color[1],d.photo.color[2]))) ;
+						return  TimeScale2(new Date(d.photo.dates.taken))*Math.sin(HueScale(getImageHue(d.photo.color[0],d.photo.color[1],d.photo.color[2]))) ;
 					});
 		var enterI = enter
 					//.append("rect")
@@ -175,6 +175,18 @@ function drawData(){
 						})	
 					.attr("width",imagesize)
 					.attr("height",imagesize)
+					// .attr("x",function(d,i){
+					// 	if ( 290 <= getImageHue(d.photo.color[0],d.photo.color[1],d.photo.color[2]) &&  getImageHue(d.photo.color[0],d.photo.color[1],d.photo.color[2]) <= 360) 
+					// 	return Math.cos(TimeScale2(new Date(d.photo.dates.taken)))*HueScale3(getImageHue(d.photo.color[0],d.photo.color[1],d.photo.color[2])) ;
+					// 	else
+					// 	return Math.cos(TimeScale2(new Date(d.photo.dates.taken)))*HueScale2(getImageHue(d.photo.color[0],d.photo.color[1],d.photo.color[2])) ;
+					// })
+					// .attr("y", function(d,i){
+					// 	if ( 290 <= getImageHue(d.photo.color[0],d.photo.color[1],d.photo.color[2]) &&  getImageHue(d.photo.color[0],d.photo.color[1],d.photo.color[2]) <= 360) 
+					// 	return Math.sin(TimeScale2(new Date(d.photo.dates.taken)))*HueScale3(getImageHue(d.photo.color[0],d.photo.color[1],d.photo.color[2])) ;
+					// 	else
+					// 	return  Math.sin(TimeScale2(new Date(d.photo.dates.taken)))*HueScale2(getImageHue(d.photo.color[0],d.photo.color[1],d.photo.color[2])) ;
+					// })
 					.attr("x",function(d,i){
 						if ( 290 <= getImageHue(d.photo.color[0],d.photo.color[1],d.photo.color[2]) &&  getImageHue(d.photo.color[0],d.photo.color[1],d.photo.color[2]) <= 360) 
 						return Math.cos(TimeScale2(d.photo.dates.taken))*HueScale3(getImageHue(d.photo.color[0],d.photo.color[1],d.photo.color[2])) ;
@@ -255,6 +267,57 @@ function drawData(){
 													.ease("elastic-out")
 											})					
 									 })	
+
+	/*							 
+								 .on("click",function(d,i){	
+								  
+									Clicked = !Clicked
+									if(Clicked) {
+									d3.select(this)
+										.style("opacity", 1)								
+										.transition()
+										.duration(5000)	
+										.attrTween("transform",function(){
+											var i = d3.interpolate(0, 360);
+											return function(t){
+												return "rotate(" + i(t) + ")"								
+
+										}
+									})										
+										// .attr("x", function(){
+										// 	return Math.cos(2*Math.PI + TimeScale2(new Date(d.photo.dates.taken)))*HueScale2(getImageHue(d.photo.color[0],d.photo.color[1],d.photo.color[2]))
+										// })
+										// .attr("y", function(){
+										// 	return Math.sin(2 * Math.PI + TimeScale2(new Date(d.photo.dates.taken)))*HueScale2(getImageHue(d.photo.color[0],d.photo.color[1],d.photo.color[2]))
+										// })
+										.attr("width",2.75)
+										.attr("height",2.75)
+										
+									 } 
+									else {
+										d3.select(this)
+										.style("opacity", 1)								
+										.transition()
+										.duration(5000)	
+										.attrTween("transform",function(){
+											var i = d3.interpolate(0, 360);
+											return function(t){
+												return "rotate(" + i(t) + ")"
+										}
+									})	
+													
+									// d3.select(this)
+									// 	.style("opacity", 0.3)								
+									// 	.transition()
+									// 	.duration(800)											
+									// 	.attr("x", 20*(i%12))
+										.attr("width",2.75)
+										.attr("height",2.75)									
+									 }
+						 
+									})
+
+	*/
 
 	}
 	

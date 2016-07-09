@@ -80,26 +80,39 @@ function drawAxis(){
 	
 function dataloaded(err, data2015 , data2014, data2013){
 		
-	        
+	var parseDate = d3.time.format("%Y-%m-%d %H:%M:%S").parse; 
+	
+	data2013.forEach(function(d) {
+		        d.photo.dates.taken = parseDate(d.photo.dates.taken);		        
+		   	});
+	data2014.forEach(function(d) {
+		        d.photo.dates.taken = parseDate(d.photo.dates.taken);		        
+		   	});	
+	data2015.forEach(function(d) {
+		        d.photo.dates.taken = parseDate(d.photo.dates.taken);		        
+		   	});	   	   	   
 	// get hue range for axis
-		var hueData2013 = [] 
-		for(var i = 0 ; i<data2013.length ; i++){
-			hueData2013[i] = getImageHue(data2013[i].photo.color[0],data2013[i].photo.color[1],data2013[i].photo.color[2]);	
-			}	
+	var hueData2013 = [] 
+	for(var i = 0 ; i<data2013.length ; i++){
+		hueData2013[i] = getImageHue(data2013[i].photo.color[0],data2013[i].photo.color[1],data2013[i].photo.color[2]);	
+		}	
 
-		var hueDomain2013 = d3.extent(hueData2013);     
-		var HueScale2013 = d3.scale.linear()
-		        .domain(hueDomain2013)
-		        .range([(width - margin.l - margin.r)/30,(width - margin.l - margin.r)/8]);	
-		
-		var HueScale20132 = d3.scale.linear()
-		        .domain(hueDomain2013)
-		        .range([(width - margin.l - margin.r)/5, (width - margin.l - margin.r)/2.4]);	
+	var hueDomain2013 = d3.extent(hueData2013);     
+	var HueScale2013 = d3.scale.linear()
+	        .domain(hueDomain2013)
+	        .range([(width - margin.l - margin.r)/30,(width - margin.l - margin.r)/8]);	
+	
+	var HueScale20132 = d3.scale.linear()
+	        .domain(hueDomain2013)
+	        .range([(width - margin.l - margin.r)/5, (width - margin.l - margin.r)/2.4]);	
+	
+
 	setTimeout(drawAxis,65000);
 	setTimeout(rotate2015,25000);
 	setTimeout(Redistrubute2013,500*(data2014.length/50) + 800*(data2013.length/50) + 4000 * 5 + 3000)
 
-	function Redistrubute2013(){
+	function Redistrubute2013(){    	   
+        
 		var timeData2013 = []
 		for(var i = 0 ; i<data2013.length ; i++){	
 			timeData2013[i] = data2013[i].photo.dates.taken;
@@ -108,13 +121,15 @@ function dataloaded(err, data2015 , data2014, data2013){
 		var timeDomainMax2013 = d3.max(timeData2013);
 
 		var TimeScale2013 = d3.time.scale()
-		        .domain([new Date("2013-12-01 00:00:00"), new Date("2013-12-31 23:59:59")])
-				.nice(d3.time.second)
+		        //.domain([new Date("2013-12-01 00:00:00"), new Date("2013-12-31 23:59:59")])
+		        .domain(d3.extent(data2013, function(d) { return d.photo.dates.taken; }))
+				.nice(d3.time.day)
 		        .range([0 * Math.PI, 2 * Math.PI]);
 
 		var TimeScale20132 = d3.time.scale()
-		        .domain([new Date("2013-12-01 00:00:00"), new Date("2013-12-31 23:59:59")])
-				.nice(d3.time.second)
+		        //.domain([new Date("2013-12-01 00:00:00"), new Date("2013-12-31 23:59:59")])
+		        .domain(d3.extent(data2013, function(d) { return d.photo.dates.taken; }))
+				.nice(d3.time.day)
 		        .range([1 * Math.PI, 2 * Math.PI]);
 
 		d3.selectAll(".group2013 .myImg")
@@ -138,13 +153,14 @@ function dataloaded(err, data2015 , data2014, data2013){
 				.duration(4000)
 				.ease("back-in-out")
 				.attr("x",function(d,i){
-				 			//100
-					return Math.cos(TimeScale20132(new Date(d.photo.dates.taken)))*HueScale20132(getImageHue(d.photo.color[0],d.photo.color[1],d.photo.color[2]))  ;
+				 	//100
+					//return Math.cos(TimeScale20132(new Date(d.photo.dates.taken)))*HueScale20132(getImageHue(d.photo.color[0],d.photo.color[1],d.photo.color[2]))  ;
+					return Math.cos(TimeScale20132(d.photo.dates.taken))*HueScale20132(getImageHue(d.photo.color[0],d.photo.color[1],d.photo.color[2]))  ;
 
 						 	})
 				.attr("y",function(d,i){
-						 	//100
-					return Math.sin(TimeScale20132(new Date(d.photo.dates.taken)))*HueScale20132(getImageHue(d.photo.color[0],d.photo.color[1],d.photo.color[2])) ;
+					//100
+					return Math.sin(TimeScale20132(d.photo.dates.taken))*HueScale20132(getImageHue(d.photo.color[0],d.photo.color[1],d.photo.color[2])) ;
 				 })
 				.attr("height",2.75)
 				.attr("width",2.75)
@@ -177,7 +193,8 @@ function dataloaded(err, data2015 , data2014, data2013){
 	         clearInterval(var2013);
 	     }
 	};
-	//draw2014();
+	
+	draw2014();
 	setInterval(var2014, 500);
 	function var2014(){
 	     if( 5<= updataController && updataController <= (data2014.length/50) + 5) {
@@ -199,6 +216,7 @@ function dataloaded(err, data2015 , data2014, data2013){
 	
 
 	function draw2013(){
+   	    	           
 		updataController ++;
 		console.log("draw2013")
 		// get time range for the axis
@@ -210,16 +228,18 @@ function dataloaded(err, data2015 , data2014, data2013){
 		var timeDomainMax = d3.max(timeData);
 
 		var TimeScale1 = d3.time.scale()
-		        .domain([new Date("2013-12-01 00:00:00"), new Date("2013-12-31 23:59:59")])
-				.nice(d3.time.second)
+		        //.domain([new Date("2013-12-01 00:00:00"), new Date("2013-12-31 23:59:59")])
+		        .domain(d3.extent(data2013, function(d) { return d.photo.dates.taken; }))
+				.nice(d3.time.day)
 		        .range([0 * Math.PI, 2 * Math.PI]);
 
 		var TimeScale2 = d3.time.scale()
-		        .domain([new Date("2013-12-01 00:00:00"), new Date("2013-12-31 23:59:59")])
-				.nice(d3.time.second)
+		        //.domain([new Date("2013-12-01 00:00:00"), new Date("2013-12-31 23:59:59")])
+		        .domain(d3.extent(data2013, function(d) { return d.photo.dates.taken; }))
+				.nice(d3.time.day)
 		        .range([1 * Math.PI, 2 * Math.PI]);
 	        
-	// get hue range for axis
+		// get hue range for axis
 		var hueData = [] 
 		for(var i = 0 ; i<data2013.length ; i++){
 			hueData[i] = getImageHue(data2013[i].photo.color[0],data2013[i].photo.color[1],data2013[i].photo.color[2]);	
@@ -236,7 +256,7 @@ function dataloaded(err, data2015 , data2014, data2013){
 		        //.rangeRound([35,50])
 		var radius2 = HueScale2(d3.max(hueData)); 
 
-	// build MOD in HTML
+		// build MOD in HTML
 		var g2013 = svg.append("g")
 						.attr("transform","translate(" + originW + "," + originH + ")")
 						.attr("class","group2013")
@@ -246,7 +266,7 @@ function dataloaded(err, data2015 , data2014, data2013){
 						.attr("class", "myImg")
 						//.data(data2013)
 						.data(data2013.filter(function(d,i){
-							console.log("data: filter")
+							//console.log("data: filter")
 							for(var j = 0; j<=data2013.length/50; j++){
 								if (j == updataController - Math.round((data2014.length/50)) -6  ) {
 									return  50*j<= i && i < 50*(j+1); 
@@ -280,7 +300,9 @@ function dataloaded(err, data2015 , data2014, data2013){
 						//if ( 0 <= getImageHue(d.photo.color[0],d.photo.color[1],d.photo.color[2]) &&  getImageHue(d.photo.color[0],d.photo.color[1],d.photo.color[2]) < 145) 
 						//return Math.cos(TimeScale1(new Date(d.photo.dates.taken)))*HueScale2(getImageHue(d.photo.color[0],d.photo.color[1],d.photo.color[2])) ;
 						//else
-						return Math.cos(TimeScale1(new Date(d.photo.dates.taken)))*HueScale1(getImageHue(d.photo.color[0],d.photo.color[1],d.photo.color[2])) + 300 ;
+						//return Math.cos(TimeScale1(new Date(d.photo.dates.taken)))*HueScale1(getImageHue(d.photo.color[0],d.photo.color[1],d.photo.color[2])) + 300 ;
+						return Math.cos(TimeScale1(d.photo.dates.taken))*HueScale1(getImageHue(d.photo.color[0],d.photo.color[1],d.photo.color[2])) + 300 ;
+					
 					})
 					.attr("y", function(d,i){
 						var rangeMin = (width - margin.l - margin.r)/5.01 * Math.sqrt((i+data2014.length)/data2014.length)
@@ -288,7 +310,9 @@ function dataloaded(err, data2015 , data2014, data2013){
 								        .domain(hueDomain)
 								        .range([rangeMin, (width - margin.l - margin.r)/5]);
 					
-						return  Math.sin(TimeScale1(new Date(d.photo.dates.taken)))*HueScale1(getImageHue(d.photo.color[0],d.photo.color[1],d.photo.color[2])) - 300 ;
+						//return  Math.sin(TimeScale1(new Date(d.photo.dates.taken)))*HueScale1(getImageHue(d.photo.color[0],d.photo.color[1],d.photo.color[2])) - 300 ;
+						return  Math.sin(TimeScale1(d.photo.dates.taken))*HueScale1(getImageHue(d.photo.color[0],d.photo.color[1],d.photo.color[2])) - 300 ;
+					
 					})
 
 		var enterI = enter2013
@@ -313,11 +337,15 @@ function dataloaded(err, data2015 , data2014, data2013){
 					//.ease("elastic")
 					.attr("x",function(d,i){
 						
-						return Math.cos(TimeScale1(new Date(d.photo.dates.taken)))*HueScale1(getImageHue(d.photo.color[0],d.photo.color[1],d.photo.color[2])) ;
+						//return Math.cos(TimeScale1(new Date(d.photo.dates.taken)))*HueScale1(getImageHue(d.photo.color[0],d.photo.color[1],d.photo.color[2])) ;
+						return Math.cos(TimeScale1(d.photo.dates.taken))*HueScale1(getImageHue(d.photo.color[0],d.photo.color[1],d.photo.color[2])) ;
+					
 					})
 					.attr("y", function(d,i){
 						
-						return  Math.sin(TimeScale1(new Date(d.photo.dates.taken)))*HueScale1(getImageHue(d.photo.color[0],d.photo.color[1],d.photo.color[2])) - 450;
+						//return  Math.sin(TimeScale1(new Date(d.photo.dates.taken)))*HueScale1(getImageHue(d.photo.color[0],d.photo.color[1],d.photo.color[2])) - 450;
+						return  Math.sin(TimeScale1(d.photo.dates.taken))*HueScale1(getImageHue(d.photo.color[0],d.photo.color[1],d.photo.color[2])) - 450;
+					
 					})
 					.attr("width",1.5)
 					.attr("height",1.5)
@@ -328,22 +356,6 @@ function dataloaded(err, data2015 , data2014, data2013){
 		var controller = 0;
 		var ImageAnimation = enterI
 								.each("end",function(){
-										// d3.select(this)
-										// .transition()
-										// .delay(400 * data2013.length/50 + 17500)
-										// .duration(1000)
-										// //.ease("back-in-out")
-										// .attr("x",function(d,i){
-										//  			//100
-										// 	return Math.cos(TimeScale2(new Date(d.photo.dates.taken)))*HueScale2(getImageHue(d.photo.color[0],d.photo.color[1],d.photo.color[2]))  ;
-
-										// 		 	})
-										// .attr("y",function(d,i){
-										// 		 	//100
-										// 	return Math.sin(TimeScale2(new Date(d.photo.dates.taken)))*HueScale2(getImageHue(d.photo.color[0],d.photo.color[1],d.photo.color[2])) ;
-										//  })
-										// .attr("width",2.75)
-										// .attr("height",2.75)
 									
 								d3.select(this)
 		   						.on("mouseover",function(d,i){
@@ -414,6 +426,7 @@ function dataloaded(err, data2015 , data2014, data2013){
 	} // draw2014 end
 	
 	function draw2014(){
+	
 		updataController ++;
 
 		// get time range for the axis
@@ -423,15 +436,21 @@ function dataloaded(err, data2015 , data2014, data2013){
 			}
 		var timeDomainMin = d3.min(timeData);
 		var timeDomainMax = d3.max(timeData);
-
+		var min2014 = parseDate("2014-12-01 00:00:00")
+		var max2014 = parseDate("2014-12-31 23:59:59")
 		var TimeScale1 = d3.time.scale()
-		        .domain([new Date("2014-12-01 00:00:00"), new Date("2014-12-31 23:59:59")])
-				.nice(d3.time.second)
+		        //.domain([new Date("2014-12-01 00:00:00"), new Date("2014-12-31 23:59:59")])
+		        //.domain(d3.extent(data2014, function(d) { return d.photo.dates.taken; }))
+		        .domain([min2014,max2014])
+				.nice(d3.time.minute)
 		        .range([0 * Math.PI, 2 * Math.PI]);
 
 		var TimeScale2 = d3.time.scale()
-		        .domain([new Date("2014-12-01 00:00:00"), new Date("2014-12-31 23:59:59")])
-				.nice(d3.time.second)
+		        //.domain(d3.extent(data2014, function(d) { return d.photo.dates.taken; }))
+		        //.domain([parseDate(2014-12-01 00:00:00),parseDate(2014-12-31 23:59:59)])
+		        .domain([min2014,max2014])
+		        //.domain([new Date("2014-12-01 00:00:00"), new Date("2014-12-31 23:59:59")])
+				.nice(d3.time.minute)
 		        .range([-1 * Math.PI, -2 * Math.PI]);
 	        
 	// get hue range for axis
@@ -487,19 +506,16 @@ function dataloaded(err, data2015 , data2014, data2013){
 					.attr("width",2.75)
 					.attr("height",2.75)
 					.attr("x",function(d,i){
-						// var rangeMin = (width - margin.l - margin.r)/5.01 * Math.sqrt((i+data2014.length)/data2014.length)
-						// var NewHueScale = d3.scale.linear()
-						// 		        .domain(hueDomain)
-						// 		        .range([rangeMin, (width - margin.l - margin.r)/5]);
-
-						//if ( 0 <= getImageHue(d.photo.color[0],d.photo.color[1],d.photo.color[2]) &&  getImageHue(d.photo.color[0],d.photo.color[1],d.photo.color[2]) < 145) 
-						//return Math.cos(TimeScale1(new Date(d.photo.dates.taken)))*HueScale2(getImageHue(d.photo.color[0],d.photo.color[1],d.photo.color[2])) ;
-						//else
-						return Math.cos(TimeScale1(new Date(d.photo.dates.taken)))*HueScale1(getImageHue(d.photo.color[0],d.photo.color[1],d.photo.color[2])) ;
+				
+						//return Math.cos(TimeScale1(new Date(d.photo.dates.taken)))*HueScale1(getImageHue(d.photo.color[0],d.photo.color[1],d.photo.color[2])) ;
+						return Math.cos(TimeScale1(d.photo.dates.taken))*HueScale1(getImageHue(d.photo.color[0],d.photo.color[1],d.photo.color[2])) ;
+					
 					})
 					.attr("y", function(d,i){
 					
-						return  Math.sin(TimeScale1(new Date(d.photo.dates.taken)))*HueScale1(getImageHue(d.photo.color[0],d.photo.color[1],d.photo.color[2])) ;
+						//return  Math.sin(TimeScale1(new Date(d.photo.dates.taken)))*HueScale1(getImageHue(d.photo.color[0],d.photo.color[1],d.photo.color[2])) ;
+						return Math.cos(TimeScale1(d.photo.dates.taken))*HueScale1(getImageHue(d.photo.color[0],d.photo.color[1],d.photo.color[2])) ;
+					
 					})
 
 		var enterI = enter2014
@@ -524,11 +540,15 @@ function dataloaded(err, data2015 , data2014, data2013){
 					.ease("back-in-out")
 					.attr("x",function(d,i){
 						
-						return Math.cos(TimeScale1(new Date(d.photo.dates.taken)))*HueScale1(getImageHue(d.photo.color[0],d.photo.color[1],d.photo.color[2]))  ;
+						//return Math.cos(TimeScale1(new Date(d.photo.dates.taken)))*HueScale1(getImageHue(d.photo.color[0],d.photo.color[1],d.photo.color[2]))  ;
+						return Math.cos(TimeScale1(d.photo.dates.taken))*HueScale1(getImageHue(d.photo.color[0],d.photo.color[1],d.photo.color[2]))  ;
+					
 					})
 					.attr("y", function(d,i){
 						
-						return  Math.sin(TimeScale1(new Date(d.photo.dates.taken)))*HueScale1(getImageHue(d.photo.color[0],d.photo.color[1],d.photo.color[2])) ;
+						//return  Math.sin(TimeScale1(new Date(d.photo.dates.taken)))*HueScale1(getImageHue(d.photo.color[0],d.photo.color[1],d.photo.color[2])) ;
+						return Math.cos(TimeScale1(d.photo.dates.taken))*HueScale1(getImageHue(d.photo.color[0],d.photo.color[1],d.photo.color[2]))  ;
+					
 					})
 		
 		
@@ -546,12 +566,15 @@ function dataloaded(err, data2015 , data2014, data2013){
 										
 										.attr("x",function(d,i){
 										 			//100
-											return Math.cos(TimeScale2(new Date(d.photo.dates.taken)))*HueScale2(getImageHue(d.photo.color[0],d.photo.color[1],d.photo.color[2]))  ;
+											//return Math.cos(TimeScale2(new Date(d.photo.dates.taken)))*HueScale2(getImageHue(d.photo.color[0],d.photo.color[1],d.photo.color[2]))  ;
+											return Math.cos(TimeScale2(d.photo.dates.taken))*HueScale2(getImageHue(d.photo.color[0],d.photo.color[1],d.photo.color[2]))  ;
 
 												 	})
 										.attr("y",function(d,i){
 												 	//100
-											return Math.sin(TimeScale2(new Date(d.photo.dates.taken)))*HueScale2(getImageHue(d.photo.color[0],d.photo.color[1],d.photo.color[2])) ;
+											//return Math.cos(TimeScale2(new Date(d.photo.dates.taken)))*HueScale2(getImageHue(d.photo.color[0],d.photo.color[1],d.photo.color[2]))  ;
+
+											return Math.sin(TimeScale2(d.photo.dates.taken))*HueScale2(getImageHue(d.photo.color[0],d.photo.color[1],d.photo.color[2])) ;
 										 })
 									
 								d3.select(this)
@@ -642,16 +665,18 @@ function dataloaded(err, data2015 , data2014, data2013){
 		var timeDomainMax = d3.max(timeData);
 
 		var TimeScale1 = d3.time.scale()
-		        .domain([new Date("2015-12-01 00:00:00"), new Date("2015-12-31 23:59:59")])
+		        //.domain([new Date("2015-12-01 00:00:00"), new Date("2015-12-31 23:59:59")])
+		        .domain(d3.extent(data2015, function(d) { return d.photo.dates.taken; }))
 				.nice(d3.time.minute)
 		        .range([0 * Math.PI, 2 * Math.PI]);
 
 		var TimeScale2 = d3.time.scale()
-		        .domain([new Date("2015-12-01 00:00:00"), new Date("2015-12-31 23:59:59")])
+		        //.domain([new Date("2015-12-01 00:00:00"), new Date("2015-12-31 23:59:59")])
+		        .domain(d3.extent(data2015, function(d) { return d.photo.dates.taken; }))
 				.nice(d3.time.minute)
 		        .range([1 * Math.PI, 2 * Math.PI]);
 	        
-	// get hue range for axis
+		// get hue range for axis
 		var hueData = [] 
 		for(var i = 0 ; i<data2015.length ; i++){
 			hueData[i] = getImageHue(data2015[i].photo.color[0],data2015[i].photo.color[1],data2015[i].photo.color[2]);	
@@ -668,7 +693,7 @@ function dataloaded(err, data2015 , data2014, data2013){
 		        //.rangeRound([35,50])
 		var radius2 = HueScale2(d3.max(hueData)); 
 
-	// build MOD in HTML
+		// build MOD in HTML
 		var g2015 = svg.append("g")
 						.attr("class","group2015") //+ updataController)
 						.attr("transform", "translate(" + originW + "," + originH + ")");
@@ -699,7 +724,7 @@ function dataloaded(err, data2015 , data2014, data2013){
 
 		var exit2015  = updata2015.exit();
 
-	// processing the MOD
+		// processing the MOD
 		var updataI = updata2015
 					.transition()
 					.duration(2000)
@@ -711,15 +736,15 @@ function dataloaded(err, data2015 , data2014, data2013){
 					.attr("height",2.75)
 					.attr("x",function(d,i){
 						if ( 0 <= getImageHue(d.photo.color[0],d.photo.color[1],d.photo.color[2]) &&  getImageHue(d.photo.color[0],d.photo.color[1],d.photo.color[2]) < 145) 
-						return Math.cos(TimeScale1(new Date(d.photo.dates.taken)))*HueScale2(getImageHue(d.photo.color[0],d.photo.color[1],d.photo.color[2])) ;
+						return Math.cos(TimeScale1(d.photo.dates.taken))*HueScale2(getImageHue(d.photo.color[0],d.photo.color[1],d.photo.color[2])) ;
 						else
-						return Math.cos(TimeScale2(new Date(d.photo.dates.taken)))*HueScale1(getImageHue(d.photo.color[0],d.photo.color[1],d.photo.color[2])) ;
+						return Math.cos(TimeScale2(d.photo.dates.taken))*HueScale1(getImageHue(d.photo.color[0],d.photo.color[1],d.photo.color[2])) ;
 					})
 					.attr("y", function(d,i){
 						if ( 0 <= getImageHue(d.photo.color[0],d.photo.color[1],d.photo.color[2]) &&  getImageHue(d.photo.color[0],d.photo.color[1],d.photo.color[2]) < 145) 
-						return Math.sin(TimeScale1(new Date(d.photo.dates.taken)))*HueScale2(getImageHue(d.photo.color[0],d.photo.color[1],d.photo.color[2])) ;
+						return Math.sin(TimeScale1(d.photo.dates.taken))*HueScale2(getImageHue(d.photo.color[0],d.photo.color[1],d.photo.color[2])) ;
 						else
-						return  Math.sin(TimeScale2(new Date(d.photo.dates.taken)))*HueScale1(getImageHue(d.photo.color[0],d.photo.color[1],d.photo.color[2])) ;
+						return  Math.sin(TimeScale2(d.photo.dates.taken))*HueScale1(getImageHue(d.photo.color[0],d.photo.color[1],d.photo.color[2])) ;
 					})
 
 		var enterI = enter2015
@@ -744,15 +769,15 @@ function dataloaded(err, data2015 , data2014, data2013){
 					.ease("elastic")
 					.attr("x",function(d,i){
 						if ( 0 <= getImageHue(d.photo.color[0],d.photo.color[1],d.photo.color[2]) &&  getImageHue(d.photo.color[0],d.photo.color[1],d.photo.color[2]) < 145) 
-						return Math.cos(TimeScale1(new Date(d.photo.dates.taken)))*HueScale2(getImageHue(d.photo.color[0],d.photo.color[1],d.photo.color[2])) ;
+						return Math.cos(TimeScale1(d.photo.dates.taken))*HueScale2(getImageHue(d.photo.color[0],d.photo.color[1],d.photo.color[2])) ;
 						else
-						return Math.cos(TimeScale2(new Date(d.photo.dates.taken)))*HueScale1(getImageHue(d.photo.color[0],d.photo.color[1],d.photo.color[2])) ;
+						return Math.cos(TimeScale2(d.photo.dates.taken))*HueScale1(getImageHue(d.photo.color[0],d.photo.color[1],d.photo.color[2])) ;
 					})
 					.attr("y", function(d,i){
 						if ( 0 <= getImageHue(d.photo.color[0],d.photo.color[1],d.photo.color[2]) &&  getImageHue(d.photo.color[0],d.photo.color[1],d.photo.color[2]) < 145) 
-						return Math.sin(TimeScale1(new Date(d.photo.dates.taken)))*HueScale2(getImageHue(d.photo.color[0],d.photo.color[1],d.photo.color[2])) ;
+						return Math.sin(TimeScale1(d.photo.dates.taken))*HueScale2(getImageHue(d.photo.color[0],d.photo.color[1],d.photo.color[2])) ;
 						else
-						return  Math.sin(TimeScale2(new Date(d.photo.dates.taken)))*HueScale1(getImageHue(d.photo.color[0],d.photo.color[1],d.photo.color[2])) ;
+						return  Math.sin(TimeScale2(d.photo.dates.taken))*HueScale1(getImageHue(d.photo.color[0],d.photo.color[1],d.photo.color[2])) ;
 					})
 		
 		// updata2015.transition()
@@ -760,24 +785,11 @@ function dataloaded(err, data2015 , data2014, data2013){
 
 		exit2015.transition().duration(2000).remove();	
 
-	// animation for imgs
+		// animation for imgs
 		var controller = 0;
 		var ImageAnimation = enterI
 							 .each("end",function(){ // this starts work only the enterI transition end.
-							 	// d3.selectAll(".group20155 .myImg")
-							 	// .transition()
-							 	// .delay(5000)
-							 	// .duration(10000)
 							 	
-							 	// 	.attr("x",function(d,i){
-
-									//  		return Math.cos(TimeScale2(new Date(d.photo.dates.taken)))*HueScale1(getImageHue(d.photo.color[0],d.photo.color[1],d.photo.color[2])) ;
-
-									//  	})
-									//  .attr("y",function(d,i){
-
-									//  		return Math.sin(TimeScale2(new Date(d.photo.dates.taken)))*HueScale1(getImageHue(d.photo.color[0],d.photo.color[1],d.photo.color[2]))
-									//  	})
 							 	d3.select(this) // after the first transition in enterI, must declear this!
 		   						.on("mouseover",function(d,i){
 
@@ -879,8 +891,6 @@ function dataloaded(err, data2015 , data2014, data2013){
 						.style("fill","none")
 						.style("stroke","white")
 						.style("stroke-width", 0.1)				
-
-;
 
 	} //function draw end	
 
