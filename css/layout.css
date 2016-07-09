@@ -1,0 +1,50 @@
+/* CSS Document */
+
+.tooltip {
+	position: absolute;
+	text-align: center;
+	font-size : 10px;
+	width: 120 px;
+	height: auto;
+	padding: 2px;
+	background-color: none;
+	border: 5px;
+	border-radius: 10%;
+	pointer-events: none;
+	font-family:"Gill Sans", "Gill Sans MT", "Myriad Pro", "DejaVu Sans Condensed", Helvetica, Arial, sans-serif;
+	color: white ;
+	}
+.tooltip2 {
+	position: absolute;
+	text-align: center;
+	font-size : 10px;
+	width: 150 px;
+	height: auto;
+	padding: 2px;
+	background-color: white;
+	border: 5px;
+	border-radius: 10%;
+	pointer-events: none;
+	font-family:"Gill Sans", "Gill Sans MT", "Myriad Pro", "DejaVu Sans Condensed", Helvetica, Arial, sans-serif;
+	color: grey ;
+	}
+.tooltip2:after {
+	content:'';
+	position:absolute;
+	bottom: 100%;
+	left:20%;
+	margin-left:-16px;
+	width:0;
+	height:0;
+	border-bottom:12px solid #FFFFFF;
+	border-right:12px solid transparent;
+	border-left:12px solid transparent;
+	
+	
+	}	
+
+.line {
+  fill: none;
+  stroke: steelblue;
+  stroke-width: 1.5px;
+}
