@@ -25,9 +25,6 @@ def matchRGB(current_rgb, json):
 	tile_now = None
 
 	for tile in json:
-		# tile_r = tile[u'photo'][u'color'][0]
-		# tile_g = tile[u'photo'][u'color'][1]
-		# tile_b = tile[u'photo'][u'color'][2]
 		tile_r = tile[u'color'][0]
 		tile_g = tile[u'color'][1]
 		tile_b = tile[u'color'][2]
