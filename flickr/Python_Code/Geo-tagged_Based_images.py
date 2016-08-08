@@ -28,19 +28,19 @@ flickr = flickrapi.FlickrAPI(api_key, api_secret, format = 'json')
 # results6 = flickr.photos.search(api_key = api_key ,  extras = 'url_n,url_s,url_sq,url_q',  tag_mode= 'all', tags = 'Christmas,Edinburgh',  per_page = 400, page = 6, max_taken_date = u'1388534399', min_taken_date = u'1385856000')
 
 results1 = flickr.photos.search(api_key = api_key #, bbox = "-3.333019,55.890423,-3.077748,55.99,1708"
-, extras = 'url_sq,url_q,date_taken, owner_name,description',  tag_mode= 'all', tags = 'animal', per_page = 500, page = 1)
+, extras = 'url_sq,url_q,date_taken, owner_name,description,geo',  tag_mode= 'all', tags = 'Edinburgh,Christmas', per_page = 500, page = 1,max_taken_date = "2013-12-31 23:59:59", min_taken_date = "2013-12-10 00:00:00")
 results2 = flickr.photos.search(api_key = api_key #, bbox = "-3.333019,55.890423,-3.077748,55.991708"
-, extras = 'url_sq,url_q,date_taken, owner_name,description',   tag_mode= 'all', tags = 'orange,flower', per_page = 500, page = 1)
+, extras = 'url_sq,url_q,date_taken, owner_name,description,geo',   tag_mode= 'all', tags = 'Edinburgh,Christmas', per_page = 500, page = 2,max_taken_date = "2013-12-31 23:59:59", min_taken_date = "2013-12-10 00:00:00")
 results3 = flickr.photos.search(api_key = api_key #, bbox = "-3.333019,55.890423,-3.077748,55.991708"
-, extras = 'url_sq,url_q,date_taken, owner_name,description',  tag_mode= 'all', tags = 'edinburgh,rain', per_page = 500, page = 1)
+, extras = 'url_sq,url_q,date_taken, owner_name,description,geo',  tag_mode= 'all', tags = 'Edinburgh,Christmas', per_page = 500, page = 1, max_taken_date = "2014-12-31 23:59:59", min_taken_date = "2014-12-10 00:00:00")
 results4 = flickr.photos.search(api_key = api_key #, bbox = "-3.333019,55.890423,-3.077748,55.991708"
-, extras = 'url_sq,url_q,date_taken, owner_name,description',   tag_mode= 'all', tags = 'edinburgh,red', per_page = 500, page = 1)
+, extras = 'url_sq,url_q,date_taken, owner_name,description,geo',   tag_mode= 'all', tags = 'Edinburgh,Christmas', per_page = 500, page = 2,max_taken_date = "2014-12-31 23:59:59", min_taken_date = "2014-12-10 00:00:00")
 results5 = flickr.photos.search(api_key = api_key #, bbox = "-3.333019,55.890423,-3.077748,55.991708"
-, extras = 'url_sq,url_q,date_taken, owner_name,description',   tag_mode= 'any', tags = 'forth bridge,forth bridges', per_page = 500, page = 2)
+, extras = 'url_sq,url_q,date_taken, owner_name,description,geo',   tag_mode= 'any', tags = 'Edinburgh,Christmas', per_page = 500, page = 1, max_taken_date = "2015-12-31 23:59:59", min_taken_date = "2015-12-10 00:00:00")
 results6 = flickr.photos.search(api_key = api_key #, bbox = "-3.333019,55.890423,-3.077748,55.991708"
-, extras = 'url_sq,url_q,date_taken, owner_name,description',   tag_mode= 'all', tags = 'edinburgh, meadows', per_page = 500, page = 1)
-results7 = flickr.photos.search(api_key = api_key #, bbox = "-3.333019,55.890423,-3.077748,55.991708"
-, extras = 'url_sq,url_q,date_taken, owner_name,description',   tag_mode= 'all', tags = 'edinburgh,sea', per_page = 500, page = 2)
+, extras = 'url_sq,url_q,date_taken, owner_name,description,geo',   tag_mode= 'all', tags = 'Edinburgh,Christmas', per_page = 500, page = 2, max_taken_date = "2015-12-31 23:59:59", min_taken_date = "2015-12-10 00:00:00")
+# results7 = flickr.photos.search(api_key = api_key #, bbox = "-3.333019,55.890423,-3.077748,55.991708"
+# , extras = 'url_sq,url_q,date_taken, owner_name,description,geo',   tag_mode= 'all', tags = 'Edinburgh,Christmas', per_page = 300, page = 2, max_taken_date = "2014-12-31 23:59:59", min_taken_date = "2014-12-10 00:00:00")
 
 #results = results1 + ',' + results2
 
@@ -54,7 +54,7 @@ results4 = json.loads(results4)
 
 results5 = json.loads(results5) 
 results6 = json.loads(results6)
-results7 = json.loads(results7)
+# results7 = json.loads(results7)
 
 
 
@@ -102,7 +102,7 @@ def getAverageRGB(image1):
 	R = 0
 	G = 0
 	B = 0
-	print image1.getcolors(image1.size[0]*image1.size[1])[:4]
+	# print image1.getcolors(image1.size[0]*image1.size[1])[:4]
 	for apperance, (r, g, b) in image1.getcolors(image1.size[0]*image1.size[1]):
 		R += int(r)
 		G += int(g)
@@ -110,6 +110,26 @@ def getAverageRGB(image1):
 		count += 1
 
 	return (R/count, G/count, B/count)
+
+def getAverageRGB_HSL(image1):
+	image1 = image1.convert('RGB')
+	
+	image1.thumbnail((200, 200))
+	Average_color = None
+	colorHLS = None
+	count = 0
+	R = 0
+	G = 0
+	B = 0
+	# print image1.getcolors(image1.size[0]*image1.size[1])[:4]
+	for apperance, (r, g, b) in image1.getcolors(image1.size[0]*image1.size[1]):
+		R += int(r)
+		G += int(g)
+		B += int(b)
+		count += 1
+	Average_color = (R/count, G/count, B/count)
+	colorHLS = colorsys.rgb_to_hls(Average_color[0]/255.00,Average_color[1]/255.00,Average_color[2]/255.00)
+	return (Average_color,colorHLS)	
 
 def getAverageColor2(img, img_size):
 	sub_size = 4
@@ -177,13 +197,15 @@ def makeJson(results):
 			file = cStringIO.StringIO(urllib.urlopen(url).read()) # append color dictionary into json file
 			img_size = 128
 			print(img_size)
-			color = getAverageColor2(Image.open(file),img_size)
+			#color = getAverageColor2(Image.open(file),img_size)
+			color = getAverageRGB_HSL(Image.open(file))
 		#    	if color[0] < 8 and color[1] < 8 and color[2] < 8 : 
 	    #   		continue 
 	    #    	if color[0] > 235 and color[1] > 235 and color[2] > 235 : 
 	    #    		continue 
 
-			i['color'] = color
+			i['color'] = color[0]
+			i['HLS'] = color[1]
 			i['url'] = url
 
 
@@ -202,7 +224,7 @@ def makeJson(results):
 		else:
 			pass
 
-t = open("EdinburghMakejson3.json", "w")  # output for the json file
+t = open("lightNess_Christmas_13_15.json", "w")  # output for the json file
 t.write('[')
 
 
@@ -217,8 +239,8 @@ t.write(',\n')
 makeJson(results5)
 t.write(',\n')
 makeJson(results6)
-t.write(',\n')
-makeJson(results7)
+# t.write(',\n')
+# makeJson(results7)
 
 
 

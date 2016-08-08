@@ -1,3 +1,4 @@
+# each tile is divides into 16 color regions and match the each subregion(includes 16 color regions) of sample images
 from PIL import Image
 import ruamel.yaml as yaml
 import numpy as np

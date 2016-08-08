@@ -1,3 +1,5 @@
+# each tile is divides into 16 color regions and match the each subregion(includes 16 color regions) of sample images 
+# each tile can at most be selected for 5 times 
 from PIL import Image
 import ruamel.yaml as yaml
 import numpy as np

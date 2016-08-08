@@ -7,8 +7,8 @@ queue()
 	.await(dataloaded);
 	
 var margin = {t: 50, r: 50, b: 50, l: 50};
-var w = 1000,
-	h = 800;
+var w = 1200,
+	h = 1000;
 	imagesize = 2.5;
 		
 
@@ -57,58 +57,6 @@ var container = svg.append("g");
 function dataloaded(err, test6){
 					
 
-// get time range for the x coordinate	
-// var timedata = []
-// for(var i = 0 ; i<test6.length ; i++){	
-// 	timedata[i] = test6[i].photo.dates.taken;
-// 	}
-// var timeDomainMin = d3.min(timedata);
-// var timeDomainMax = d3.max(timedata);
-// var TimeScale = d3.time.scale()
-//         .domain([new Date(timeDomainMin), new Date(timeDomainMax)])
-//         .rangeRound([0, w - margin.l - margin.r]);
-// //var timeFormat = d3.time.format('%Y-%m-%d %H:%M:%S')
-		
-// var TimeScale3 = d3.time.scale()
-//         .domain([new Date(2015,01,01), new Date(2015,12,08)])
-//         .rangeRound([0, w - margin.l - margin.r]);		
-// // get hue range for the y coordinate
-// var hueData = []
-// for(var i = 0 ; i<test6.length ; i++){
-// 	hueData[i] = getImageHue(test6[i].photo.color[0],test6[i].photo.color[1],test6[i].photo.color[2]);	
-// 	}	
-// //var hueDomainMin = d3.min(hueData);
-// //var hueDomainMax = d3.max(hueData);
-// var hueDomain = d3.extent(hueData);
-// var HueScale = d3.scale.linear()
-//         .domain(hueDomain)
-//         .range([0, 2 * Math.PI]);
-
-	// var thumbimgs = container.selectAll("rect")
-	// 				.data(test6)
-	// 				.enter()
-	// 				.append("rect")
-	// 				.attr("class","thumbimgs")
-	// 				.attr("width",16)
-	// 				.attr("height",16)
-	// 				//.attr("fill", "none")
-	// 				.attr("fill",function(d,i){
-	// 					if(d.photo.color[0] > 20 && d.photo.color[1] > 20 && d.photo.color[2] > 20)
-	// 					return getImageColor(d.photo.color[0],d.photo.color[1],d.photo.color[2]);
-	// 					else
-	// 					return "white";		
-	// 				})
-	// 				//.attr("stroke-width",0.5)
-	// 				.attr("opacity",function(d,i){
-	// 					if(d.photo.color[0] > 20 && d.photo.color[1] > 20 && d.photo.color[2] > 20)
-	// 					return 0.5;
-	// 					else
-	// 					return 0.75;		
-
-	// 				})
-	// 				.attr("x",function(d,i){return 16.5*(i%80);})
-	// 				.attr("y", function(d,i){return   16.5 * Math.floor(i / 80)})
-
 	var imgs = container
 					.selectAll("img")
 					.data(test6)
@@ -122,8 +70,8 @@ function dataloaded(err, test6){
 					.attr("height",imagesize)
 					//.attr("viewBox", "")
 					//.attr("opacity",0.3)
-					.attr("x",function(d,i){return imagesize* Math.floor(i / 200) })
-					.attr("y", function(d,i){return   imagesize*(i%200) })
+					.attr("x",function(d,i){return w/6 + imagesize* Math.floor(i / 200) })
+					.attr("y", function(d,i){return h/4 +  imagesize*(i%200) })
 					.attr("opacity",1)				 
 					
 	console.log(imgs)	
@@ -139,7 +87,7 @@ var texts = svg
 
 				return 30 + i*(w/characters.length)
 			})
-			.attr("y",h/2)
+			.attr("y",h/6)
 			.attr("fill","none")
 			.attr("stroke","white")
 			.attr("stroke-width",1)
