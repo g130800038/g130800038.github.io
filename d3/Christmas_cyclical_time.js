@@ -563,7 +563,7 @@ function dataloaded(err, data2015 , data2014, data2013){
 										.style("left", (d3.event.pageX + 75) + "px")
 										.style("top", (d3.event.pageY - 75) + "px");
 								    })
-		   						.on("mousemove",function(){
+		   						.on("mousemove",function(d,i){
 		   							  var string = d.photo.urls.url[0].url_q;
 		   							  ImageDisplay
 										.transition()
