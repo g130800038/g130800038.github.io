@@ -49,16 +49,18 @@
                         <a class="page-scroll" href="#Introduction">Introduction</a>
                     </li>
                     <li>
-                        <a class="page-scroll" href="#portfolio">Exhibition</a>
+                        <a class="page-scroll" href="#portfolio">Visualization</a>
                     </li>
+             <!--       
                     <li>
                         <a class="page-scroll" href="#Dataset">Dataset</a>
                     </li>
                     <li>
                         <a class="page-scroll" href="#team">Research</a>
                     </li>
+              -->      
                     <li>
-                        <a class="page-scroll" href="#about">About</a>
+                        <a class="page-scroll" href="#analysis">Analysis</a>
                     </li>
                 </ul>
             </div>
@@ -88,20 +90,28 @@
                 </div>
             </div>
             <div class="row text-center">
-                <div class="col-md-4">
+                <div class="col-md-4" align="">
                    
                     <h4 class="Introduction-heading">The Approach</h4>
-                    <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minima maxime quam architecto quo inventore harum ex magni, dicta impedit.</p>
+                    <p class="text-muted" align="justify" >Social media dataset with massive social data, are often used to analyze social patterns. Opposed to only analyzing numbers (dates) or words (tags), how could colors and “internal” metadata of user-generated photos be used to present a specific place and time? 
+                    </br> </br>Since user-generated photos with subjective identification of objects can present a place diversely, will visualization of thousand of geo-tagged photos release common views or generate “collective memories” from different people for a specific place and time? 
+                    
+                    </p>
                 </div>
                 <div class="col-md-4">
                    
                     <h4 class="Introduction-heading">The Methods</h4>
-                    <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minima maxime quam architecto quo inventore harum ex magni, dicta impedit.</p>
+                    <p class="text-muted" align="justify">Using APIs provided by Flickr, a media sharing service, this project collects thousands of publicly shared photos and their metadata, and then visualizes groups of images together using Python and d3 javascript. </br> </br>
+
+This project will explore the visualization methods for using user-generation photos collected from Flickr that is firmly embedded in a culture of connectivity, discuss “collective memories” in Edinburgh based on user-generated photos and explore color patterns for this city.</p>
                 </div>
                 <div class="col-md-4">
                   
                     <h4 class="Introduction-heading">The Research</h4>
-                    <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minima maxime quam architecto quo inventore harum ex magni, dicta impedit.</p>
+                    <p class="text-muted" align="justify">In order to fulfill “distant reading” of patterns with “close reading” of particular artifacts, ideas of “brushing” (Martin and Ward, 1995) and “focus + context” Deleisch (2003) provide a valuable framework to exercise. 
+                    </br> </br>
+                    The research paper applying these theories, <a href="http://www.w3schools.com">Zooming into Edinburgh -- color illustrion of the city</a>,  is written for giving media visualizations, results, and detailed analysis. 
+                    </p>
                 </div>
             </div>
         </div>
@@ -221,6 +231,125 @@
             </div>
         </div>
     </section>
+    
+    <!-- About Section -->
+    <section id="analysis">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <h2 class="section-heading">Analysis</h2>
+                    <p class="text-muted" align="center">The polar plot and histogram (montage) visualizations showed below are presentations of cyclical time in Edinburgh, while the mosaic photography is used to explore user’s “collective memories” for different color ranges of Edinburgh.</p> </br></br>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <ul class="timeline">
+                        <li>
+                            <div class="timeline-image">
+                                <img class="img-circle img-responsive" src="img/analysis/EdinburghWeather.png" alt="">
+                            </div>
+                            <div class="timeline-panel">
+                                <div class="timeline-heading">
+                                    <h4>Presentation of Cyclical time</h4>
+                                    <h4 class="subheading">Edinburgh Annually Festival</h4>
+                                </div>
+                                <div class="timeline-body">
+                                    <p class="text-muted">this graphic layout presents a closer reading about “collective memories” of Edinburgh’s Festival as well as specific domestic features, such as food, Christmas Market, in category volumes. Inspired by the project selfieCity, the appearance of this layout combines the feature of histogram and information of Edinburgh’s monthly average temperature in the past five years.
+                                     By give a close reading to user-generated photos from April to August, we could see the most identified feature inside is “people”. Owners of these photos use specific figure or group of figures to refer their memories in the festival and tag these photos as “festival”. Specifically, performers, dancers and musicians are regarded as the representatives to the community in festival events. The abstract word “festival” therefore could be visualized as concrete characters based on collective views from these user-generated photos.
+                                    </p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="timeline-inverted">
+                            <div class="timeline-image">
+                                <img class="img-circle img-responsive" src="img/analysis/dominantColor.png" alt="">
+                            </div>
+                            <div class="timeline-panel">
+                                <div class="timeline-heading">
+                                    <h4>Montage of Christmas</h4>
+                                    <h4 class="subheading">Dominant color in Christmas</h4>
+                                </div>
+                                <div class="timeline-body">
+                                    <p class="text-muted">This image montage enables users to see 2694 user-generated photos related to Christmas of Edinburgh in 2013, 2014 and 2015. All of these photos are organized by their color lightness from 0 to 1. Although user-generated photos are not organized based on time stamp, the visualization layout indeed indicates the different atmospheres between nighttime and daytime. By zooming into the photo collection, most of photos are taken for recording activities hold in The Princess Street and The Royal Mile during the nighttime, leaving a feel that most of people gathered together to celebrate Christmas and enjoyed the specific annually activities – amusement park and the Christmas market. However, during the daytime, photos are much more dispersive around Edinburgh. These photos are more about self-portrait and family portrait in different places. </p>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="timeline-image">
+                                <img class="img-circle img-responsive" src="img/analysis/Christmas13_15.png" alt="">
+                            </div>
+                            <div class="timeline-panel">
+                                <div class="timeline-heading">
+                                    <h4>Polar Plot visualization</h4>
+                                    <h4 class="subheading">Collective memories for Christmas</h4>
+                                </div>
+                                <div class="timeline-body">
+                                    <p class="text-muted">In order to further discuss the conclusion that the dominant color of Edinburgh in December is orange-brown, this project uses another polar plot visualization that explores 5000 user-generated photos in December of Edinburgh, with 1200, 1300, 2500 photos in 2013, 2014, and 2015 respectively. This visualization enables users to view user-generated photos in different days by selecting different feature set interactively. By adjusting the opacity attribution, users could see the color pattern in each year clearly. The three patterns all show a feature that most of user-generated photos gather in hue range of 0 to 60, releasing the same conclusion that orange-brown is the dominant color of Edinburgh in December. By close reading these user-generated photos day by day, users could also see most of photos are captured for Christmas market and amusement park. </p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="timeline-inverted">
+                            <div class="timeline-image">
+                                <img class="img-circle img-responsive" src="img/analysis/ColorRun.png" alt="">
+                            </div>
+                            <div class="timeline-panel">
+                                <div class="timeline-heading">
+                                    <h4>Mosaic Photography</h4>
+                                    <h4 class="subheading">"Collective memories" for different color ranges</h4>
+                                </div>
+                                <div class="timeline-body">
+                                    <p class="text-muted">This project selects two target images, portrait of bear captured in Edinburgh zoo and portrait of a participant in 2016 color run event, to produce mosaic photography. These two images are distinctive in color ranges with the first one presenting a darker version and the second one presenting a brighter and colorful version. Although it is expected that different filled color areas will show a diversity of objects for a specific color, the result is quite disappointing. Both of two mosaic productions are filled quite accurately, but some of tile images are used too many times, resulting a terrible illustration of “collective memory” for that color range, such as purple, grey in the production of color run event. There are a few color ranges, such as green, cyan and blue, giving a relative better view about “collective memory”. For instance, the blue range is mostly filled by photos with coast, sky and shows diversity in some degree. Although some codes have been written to limit the times of using a singe image, the output is quite bad due to unqualified matches of tiles image. </p>
+                                </div>
+                            </div>
+                        </li>
+                        
+                        
+                      
+                        <li class="timeline-inverted">
+                            <div class="timeline-image">
+                                <h4><a href="#portfolio">To see
+                                    <br>visualizations 
+                                    <br>in detail!</a></h4>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <footer>
+        <div class="container">
+            <div class="row">
+               <div class="col-md-4">
+                    <ul class="list-inline quicklinks">
+                        <li>Master of Science Design and Digital Media
+                        </li>
+                        <li><a href="http://www.eca.ed.ac.uk" target="_blank">Edinburgh College of Art</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <ul class="list-inline social-buttons">
+                        <li><a href="#"><i class="fa fa-twitter"></i></a>
+                        </li>
+                        <li><a href="#"><i class="fa fa-facebook"></i></a>
+                        </li>
+                        <li><a href="#"><i class="fa fa-linkedin"></i></a>
+                        </li>
+                    </ul>
+                </div>
+          
+                 <div class="col-md-4">
+                    <span class="copyright">Copyright &copy; Zooming into Edinburgh 2016</span>
+                      <ul class="list-inline quicklinks">
+                        <li> By s1529856
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
 
 
 <!--
